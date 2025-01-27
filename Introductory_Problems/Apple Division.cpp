@@ -23,24 +23,18 @@ using namespace std;
 
 
 // recursive solution
-int n;
-vector<int> nums;
-
-int getMinDifference(int curIdx, int curDif) {
-    if (curIdx == n) return abs(curDif);
-
-    int rightGroup = getMinDifference(curIdx + 1, nums[curIdx] + curDif);
-    int leftGroup = getMinDifference(curIdx + 1, nums[curIdx] - curDif);
-
-    return min(rightGroup, leftGroup);
-}
-
-void Erz3() {
+void Erz3(int testcase) {
+    int n;
     cin >> n;
-    nums.resize(n);
-    for (auto& i : nums) cin >> i;
-
-    cout << getMinDifference(0, 0);
+    vector<int> v(n);
+    for (int i = 0; i < n; i++) {cin >> v[i];}
+    function<int(int, int)> div = [&](int idx, int sum) {
+        if (idx >= n) return abs(sum);
+        int l = div(idx + 1, sum + v[idx]);
+        int r = div(idx + 1, sum - v[idx]);
+        return min(l, r);
+    };
+    cout << div(0, 0) << '\n';
 }
 
 
